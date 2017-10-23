@@ -62,6 +62,8 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s, int si)
 {
+	if ((s < 0) || (s > MAX_VECTOR_SIZE))
+		throw "Error";
 	Size = s;
 	StartIndex = si;
 	pVector = new ValType[Size];
@@ -87,20 +89,21 @@ TVector<ValType>::~TVector()
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	if ((pos < 0) ||(pos>this->Size))
+		throw "Negative index";
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	int flag = 0;
 	if (StartIndex == v.StartIndex)
 	{
-		if (Size = v.Size)
-			int flag = 0;
-		for (int i = 0; i < Size; i++)
-			if (pVector[i] != v.pVector[i]) flag += 1;
+		if (Size == v.Size) 
+			for (int i = 0; i < Size; i++) 
+				if (pVector[i] != v.pVector[i]) flag += 1;
 		if (flag == 0) return 1; else return 0;
-		else return 0;
 	}
 	else return 0;
 } /*-------------------------------------------------------------------------*/
@@ -280,8 +283,9 @@ TMatrix<ValType> TMatrix<ValType>::operator+(const TMatrix<ValType> &mt)
 	{
 		for(int i = 0; i<Size;i++)
 		res.pVector[i] =pVector[i] + mt.pVector[i];
+		return res;
 	}
-	return res;
+	else throw "Size!=";
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычитание
@@ -292,8 +296,10 @@ TMatrix<ValType> TMatrix<ValType>::operator-(const TMatrix<ValType> &mt)
 		TMatrix <ValType> res(Size);
 		for (int i = 0; i<Size; i++)
 			res.pVector[i] = pVector[i]- mt.pVector[i];
+		return res;
 	}
-	return res;
+	else throw "Size!=";
+
 } /*-------------------------------------------------------------------------*/
 
   // TVector О3 Л2 П4 С6
