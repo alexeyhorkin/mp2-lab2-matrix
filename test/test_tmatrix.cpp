@@ -1,5 +1,4 @@
 #include "utmatrix.h"
-
 #include <gtest.h>
 
 TEST(TMatrix, can_create_matrix_with_positive_length)
@@ -68,27 +67,44 @@ TEST(TMatrix, throws_when_set_element_with_too_large_index)
 TEST(TMatrix, can_assign_matrix_to_itself)
 {
 	TMatrix<int> m(5);
-	TMatrix<int> a;
+	m[0][1] = 2;
+	m[3][3] = 4;
 
-	ASSERT_NO_THROW(a=m);
+	ASSERT_NO_THROW(m=m);
 }
 
 TEST(TMatrix, can_assign_matrices_of_equal_size)
 {
-	TMatrix<int> m(5);
-	TMatrix<int> a(5);
+	TMatrix<int> m(2);
+	TMatrix<int> a(2);
+	m[0][0] = 1;
+	m[0][1] = 2;
+	m[1][1] = 4;
+	a = m;
 
-	ASSERT_NO_THROW(a = m);
+	EXPECT_EQ( 1, a==m);
 }
 
 TEST(TMatrix, assign_operator_change_matrix_size)
 {
-  ADD_FAILURE();
+	TMatrix<int> m(5);
+	TMatrix<int> a(7);
+	a = m;
+	EXPECT_EQ(5, a.GetSize());
 }
 
 TEST(TMatrix, can_assign_matrices_of_different_size)
 {
-  ADD_FAILURE();
+
+	TMatrix<int> m(5);
+	TMatrix<int> a(7);
+
+	a = m;
+	m[0][0] = 1;
+	m[0][1] = 2;
+	m[1][1] = 4;
+	a = m;
+	EXPECT_EQ(1, a == m);
 }
 
 TEST(TMatrix, compare_equal_matrices_return_true)
@@ -98,25 +114,24 @@ TEST(TMatrix, compare_equal_matrices_return_true)
 	m[0][0] = 1; a[0][0] = 1;
 	m[0][1] = 1; a[0][1] = 1;
 	m[1][1] = 1; a[1][1] = 1;
-	
-  EXPECT_EQ(m,a);
+     EXPECT_EQ(1, m == a);
 }
 
 TEST(TMatrix, compare_matrix_with_itself_return_true)
 {
 
 	TMatrix<int> m(2);
-	m[0][0] = 1; 
-	m[0][1] = 1; 
+    m[0][0] = 1; 
+ 	m[0][1] = 1; 
 	m[1][1] = 1; 
-	EXPECT_EQ(m, m);
+	EXPECT_EQ(1, m==m);
 }
 
 TEST(TMatrix, matrices_with_different_size_are_not_equal)
 {
 	TMatrix<int> m(2);
 	TMatrix<int> a(3);
-  EXPECT_NE(m,a);
+  EXPECT_EQ(1, m!=a);
 }
 
 TEST(TMatrix, can_add_matrices_with_equal_size)
