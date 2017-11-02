@@ -43,7 +43,7 @@ TEST(TVector, copied_vector_has_its_own_memory)
 	A[1] = 0;
 	A[2] = 1;
 	TVector<int> copyA(A);
-	EXPECT_NE(&A, &copyA);
+	EXPECT_NE(&A[0], &copyA[0]);
 }
 
 TEST(TVector, can_get_size)
@@ -107,11 +107,11 @@ TEST(TVector, can_assign_vectors_of_different_size)
 {
 	TVector<int> m(5);
 	TVector<int> a(7);
-
-	a = m;
 	m[0] = 1;
-	m[0] = 2;
-	m[1] = 4;
+	m[1] = 2;
+	m[2] = 4;
+	m[3] = 4;
+	m[4] = 4;
 	a = m;
 	EXPECT_EQ(1, a == m);
 }
@@ -224,12 +224,17 @@ TEST(TVector, cant_subtract_vectors_with_not_equal_size)
 TEST(TVector, can_multiply_vectors_with_equal_size)
 {
 	TVector<int>a(4);
-	a[0] = 1;
+	a[0] = 2;
 	a[1] = 1;
 	a[2] = 1;
 	a[3] = 1;
 	TVector<int>v(4);
-	EXPECT_NO_THROW(a*v);
+	v[0] = 2;
+	v[1] = 1;
+	v[2] = 1;
+	v[3] = 1;
+
+  EXPECT_EQ(7,a*v);
 }
 
 TEST(TVector, cant_multiply_vectors_with_not_equal_size)
